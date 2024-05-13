@@ -50,3 +50,12 @@ functions:
           method: post
     environment:
       DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}
+
+  getAll:
+    handler: src/handlers/getAll.handler
+    events:
+      - httpApi:
+          path: /notes
+          method: get
+    environment:
+      DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}

@@ -22,6 +22,15 @@ const create = async (noteParams) => {
   return note;
 };
 
+const getAll = async () => {
+  const params = {
+    TableName: tableName,
+  };
+  const result = await dynamoDB.scan(params).promise();
+  return result.Items;
+};
+
 module.exports = {
   create,
+  getAll,
 };
