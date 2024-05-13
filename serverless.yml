@@ -59,3 +59,12 @@ functions:
           method: get
     environment:
       DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}
+
+  getById:
+    handler: src/handlers/getById.handler
+    events:
+      - httpApi:
+          path: /notes/{id}
+          method: get
+    environment:
+      DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}

@@ -30,7 +30,19 @@ const getAll = async () => {
   return result.Items;
 };
 
+const getById = async (id) => {
+  const params = {
+    TableName: tableName,
+    Key: {
+      id: id,
+    },
+  };
+  const result = await dynamoDB.get(params).promise();
+  return result.Item;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
