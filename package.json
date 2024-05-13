@@ -1,0 +1,22 @@
+{
+  "name": "serverless-api",
+  "version": "1.0.0",
+  "description": "Serverless notes api",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/racifuina/serverless-api.git"
+  },
+  "keywords": [
+    "serverless",
+    "api"
+  ],
+  "author": "Rigoberto Acifuina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/racifuina/serverless-api/issues"
+  },
+  "homepage": "https://github.com/racifuina/serverless-api#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1618.0"
+  }
+}
