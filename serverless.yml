@@ -77,3 +77,12 @@ functions:
           method: delete
     environment:
       DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}
+
+  patch:
+    handler: src/handlers/patch.handler
+    events:
+      - httpApi:
+          path: /notes/{id}
+          method: patch
+    environment:
+      DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}

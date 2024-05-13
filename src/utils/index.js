@@ -13,4 +13,8 @@ const defaultResponse = (statusCode, body) => {
   };
 };
 
-module.exports = { defaultResponse, getId };
+const isNilOrEmpty = (value) => {
+  return lodash.isNil(value) || lodash.isEmpty(value);
+};
+
+module.exports = { defaultResponse, getId, isNilOrEmpty };

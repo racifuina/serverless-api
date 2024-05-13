@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const { getId } = require("../utils");
+const { isNilOrEmpty } = require("../utils");
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
@@ -52,9 +53,45 @@ const deleteById = async (id) => {
   return;
 };
 
+const updateById = async (id, updatedAttributes) => {
+  const { title, content } = updatedAttributes;
+
+  const params = {
+    TableName: tableName,
+    Key: {
+      id: id,
+    },
+    UpdateExpression: "SET",
+    ExpressionAttributeValues: {},
+    ReturnValues: "ALL_NEW",
+  };
+
+  if (!isNilOrEmpty(title)) {
+    params.UpdateExpression += " #t = :t,";
+    params.ExpressionAttributeValues[":t"] = title;
+    params.ExpressionAttributeNames = { "#t": "title" };
+  }
+
+  if (!isNilOrEmpty(content)) {
+    params.UpdateExpression += " #c = :c,";
+    params.ExpressionAttributeValues[":c"] = content;
+    params.ExpressionAttributeNames = {
+      ...params.ExpressionAttributeNames,
+      "#c": "content",
+    };
+  }
+
+  // Remove the trailing comma and space
+  params.UpdateExpression = params.UpdateExpression.slice(0, -1);
+
+  const result = await dynamoDB.update(params).promise();
+  return result.Attributes;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   deleteById,
+  updateById,
 };
