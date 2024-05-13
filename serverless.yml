@@ -68,3 +68,12 @@ functions:
           method: get
     environment:
       DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}
+
+  delete:
+    handler: src/handlers/delete.handler
+    events:
+      - httpApi:
+          path: /notes/{id}
+          method: delete
+    environment:
+      DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}

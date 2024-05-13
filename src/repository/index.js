@@ -41,8 +41,20 @@ const getById = async (id) => {
   return result.Item;
 };
 
+const deleteById = async (id) => {
+  const params = {
+    TableName: tableName,
+    Key: {
+      id: id,
+    },
+  };
+  await dynamoDB.delete(params).promise();
+  return;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  deleteById,
 };
