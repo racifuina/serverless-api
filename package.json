@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/racifuina/serverless-api#readme",
   "dependencies": {
-    "aws-sdk": "^2.1618.0"
+    "aws-sdk": "^2.1618.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
   }
 }

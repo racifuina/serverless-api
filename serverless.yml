@@ -3,7 +3,50 @@ app: serverless-api
 service: serverless-api
 frameworkVersion: "3"
 
+custom:
+  stage: ${opt:stage, 'dev'}
+  dynamodb:
+    tableName: ${self:custom.stage}-Notes
+
 provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  stage: ${self:custom.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:Scan
+          Resource: "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.dynamodb.tableName}"
+
+resources:
+  Resources:
+    NotesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.dynamodb.tableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+functions:
+  post:
+    handler: src/handlers/post.handler
+    events:
+      - httpApi:
+          path: /notes
+          method: post
+    environment:
+      DYNAMODB_TABLE: ${self:custom.dynamodb.tableName}
